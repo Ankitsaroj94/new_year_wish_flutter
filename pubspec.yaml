@@ -7,11 +7,18 @@ environment:
   sdk: ^3.10.3
 
 dependencies:
+  animated_text_kit: ^4.3.0
+  confetti: ^0.8.0
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_animate: ^4.5.2
   get: ^4.7.3
+  google_fonts: ^6.3.3
   magic_extensions: ^0.0.12
   magic_image: ^1.0.1
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

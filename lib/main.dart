@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:new_year_wish_flutter/app/routes/app_pages.dart';
 
-import 'app/routes/app_pages.dart';
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     GetMaterialApp(
       title: "Application",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
+      locale: const Locale('en', 'US'),
+      fallbackLocale: const Locale('en', 'US'),
+      supportedLocales: const [Locale('en', 'US')],
     ),
   );
 }
