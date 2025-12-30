@@ -1,0 +1,108 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"command": "dart",
+			"args": [
+				"run",
+				"build_runner",
+				"watch",
+				"-d"
+			],
+			"problemMatcher": [
+				"$dart-build_runner"
+			],
+			"group": "build",
+			"label": "Build Runner Watch",
+			"detail": ""
+		},
+		{
+			"type": "shell",
+			"command": "dart",
+			"args": [
+				"run",
+				"build_runner",
+				"clean",
+			],
+			"problemMatcher": [
+				"$dart-build_runner"
+			],
+			"group": "build",
+			"label": "Build Runner Clean",
+			"detail": ""
+		},
+		{
+			"type": "shell",
+			"command": "dart",
+			"args": [
+				"run",
+				"build_runner",
+				"build",
+				"-d"
+			],
+			"problemMatcher": [
+				"$dart-build_runner"
+			],
+			"group": "build",
+			"label": "Build Runner Build",
+			"detail": ""
+		},
+		{
+			"type": "shell",
+			"command": "~/.pub-cache/bin/get",
+			"args": [
+				"generate",
+				"locales",
+				"assets/locales"
+			],
+			"problemMatcher": [],
+			"group": "build",
+			"label": "Locales",
+			"detail": ""
+		},
+		{
+			"type": "shell",
+			"command": "~/.pub-cache/bin/fluttergen",
+			"args": [],
+			"problemMatcher": [],
+			"group": "build",
+			"label": "Fluttergen",
+			"detail": ""
+		},
+		{
+			"type": "flutter",
+			"command": "flutter",
+			"args": [
+				"pub",
+				"get",
+			],
+			"problemMatcher": [],
+			"group": "build",
+			"label": "flutter pub get",
+			"detail": ""
+		},
+		{
+			"type": "shell",
+			"command": "get",
+			"args": [
+				"generate",
+				"locales",
+				"assets/locales"
+			],
+			"problemMatcher": [],
+			"group": "build",
+			"label": "Locales For Windows",
+			"detail": ""
+		},
+		{
+			"type": "shell",
+			"command": "fluttergen",
+			"args": [],
+			"problemMatcher": [],
+			"group": "build",
+			"label": "Fluttergen For Windows",
+			"detail": ""
+		},
+	]
+}
