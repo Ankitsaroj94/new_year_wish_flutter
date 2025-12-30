@@ -48,4 +48,7 @@ app.*.map.json
 .fvm/
 
 # Assets
-Assets/images/
+assets/images/
+
+# Generated code
+lib/gen/
