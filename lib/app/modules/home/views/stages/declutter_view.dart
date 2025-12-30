@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -24,7 +23,7 @@ class DeclutterView extends GetView<HomeController> {
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
-              ).animate().fadeIn(),
+              ),
               Expanded(
                 child: Center(
                   child: Obx(() {
@@ -36,18 +35,10 @@ class DeclutterView extends GetView<HomeController> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const Icon(
-                                  Icons.card_giftcard,
-                                  size: 120,
-                                  color: Colors.amber,
-                                )
-                                .animate()
-                                .fadeIn()
-                                .scale(
-                                  duration: 500.ms,
-                                  curve: Curves.elasticOut,
-                                )
-                                .then()
-                                .shake(),
+                              Icons.card_giftcard,
+                              size: 120,
+                              color: Colors.amber,
+                            ),
                             const SizedBox(height: 20),
                             Text(
                               "Tap for a surprise!",
@@ -55,7 +46,7 @@ class DeclutterView extends GetView<HomeController> {
                                 color: Colors.white,
                                 fontSize: 18,
                               ),
-                            ).animate().fadeIn(),
+                            ),
                           ],
                         ),
                       );
@@ -64,20 +55,36 @@ class DeclutterView extends GetView<HomeController> {
                     // Card Stack
                     return Stack(
                       alignment: Alignment.center,
-                      children: controller.declutterItems.reversed.map((item) {
-                        return Draggable<String>(
-                          data: item,
-                          feedback: _buildCard(item, isDragging: true),
-                          childWhenDragging: Container(),
-                          onDragEnd: (details) {
-                            // Check if dragged far enough
-                            if (details.offset.distance > 100) {
-                              controller.removeDeclutterItem(item);
+                      children: controller.declutterItems.reversed
+                          .toList()
+                          .asMap()
+                          .entries
+                          .map((entry) {
+                            final index = entry.key;
+                            final item = entry.value;
+                            final isTop =
+                                index == controller.declutterItems.length - 1;
+
+                            if (isTop) {
+                              // Interactive Top Card with Dismissible
+                              return Dismissible(
+                                key: ValueKey(item),
+                                direction: DismissDirection.horizontal,
+                                onDismissed: (_) {
+                                  controller.removeDeclutterItem(item);
+                                },
+                                child: GestureDetector(
+                                  onTap: () =>
+                                      controller.removeDeclutterItem(item),
+                                  child: _buildCard(item),
+                                ),
+                              );
+                            } else {
+                              // Static Background Cards
+                              return _buildCard(item);
                             }
-                          },
-                          child: _buildCard(item),
-                        );
-                      }).toList(),
+                          })
+                          .toList(),
                     );
                   }),
                 ),
@@ -171,14 +178,7 @@ class DeclutterView extends GetView<HomeController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(emoji, style: const TextStyle(fontSize: 80))
-                  .animate(onPlay: (c) => c.repeat(reverse: true))
-                  .scale(
-                    begin: const Offset(1, 1),
-                    end: const Offset(1.1, 1.1),
-                    duration: const Duration(seconds: 2),
-                    curve: Curves.easeInOut,
-                  ),
+              Text(emoji, style: const TextStyle(fontSize: 80)),
               const SizedBox(height: 30),
               Text(
                 text,
@@ -199,7 +199,7 @@ class DeclutterView extends GetView<HomeController> {
               ),
               const SizedBox(height: 30),
               Text(
-                "Tap to discard",
+                "Swipe (or Tap) to discard",
                 style: GoogleFonts.caveat(
                   fontSize: 26,
                   color: Colors.brown[600],

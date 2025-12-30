@@ -38,7 +38,7 @@ class HomeController extends GetxController {
   }
 
   void _navigateToStage2() {
-    Get.to(
+    Get.off(
       () => const DeclutterView(),
       transition: Transition.circularReveal,
       duration: const Duration(milliseconds: 1000),
@@ -58,7 +58,7 @@ class HomeController extends GetxController {
   }
 
   void openGift() {
-    Get.to(
+    Get.off(
       () => const MemoryVaultView(),
       transition: Transition.zoom,
       duration: const Duration(milliseconds: 800),
@@ -124,12 +124,12 @@ class HomeController extends GetxController {
   }
 
   void goToGoldenTicket() {
-    Get.to(() => const GoldenTicketView(), transition: Transition.fadeIn);
+    Get.off(() => const GoldenTicketView(), transition: Transition.fadeIn);
   }
 
   // --- Stage 4 to 5 ---
   void goToReveal2026() {
-    Get.to(
+    Get.off(
       () => const Reveal2026View(),
       transition: Transition.rightToLeftWithFade,
     );

@@ -4,7 +4,6 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:magic_image/magic_image.dart';
 
 import '../../controllers/home_controller.dart';
 import '../../widgets/romantic_background.dart';
@@ -110,6 +109,7 @@ class _MemoryVaultViewState extends State<MemoryVaultView> {
                 child: ConfettiWidget(
                   confettiController: _confettiController,
                   blastDirectionality: BlastDirectionality.explosive,
+                  numberOfParticles: 5, // Reduced from default
                   colors: const [
                     Colors.red,
                     Colors.pink,
@@ -130,7 +130,8 @@ class _MemoryVaultViewState extends State<MemoryVaultView> {
       return _buildPolaroid(item); // Static back cards
     }
 
-    return Draggable<String>(
+    return Draggable<MemoryItem>(
+      data: item,
       feedback: Material(
         color: Colors.transparent,
         child: Transform.rotate(
@@ -141,8 +142,28 @@ class _MemoryVaultViewState extends State<MemoryVaultView> {
       ),
       childWhenDragging:
           Container(), // Show nothing underneath (reveals next card)
+      onDragStarted: () {
+        // We could track start here if needed, but Draggable 'details.offset' is global.
+        // Better: Compare with screen center (if card is centered).
+        // Card is roughly centered.
+      },
       onDragEnd: (details) {
-        if (details.offset.distance > 100) {
+        // Calculate distance from Center of Screen (since card is centered)
+        // This is more robust than assuming (0,0) reference.
+        final screenCenter = Offset(Get.width / 2, Get.height / 2);
+        // Feedback is usually centered on finger or top-left.
+        // Actually, details.offset is Top-Left of the feedback.
+        // If feedback is 90% width, it's huge.
+        // Let's use the center of the feedback rect.
+        // Feedback Width ~ 0.9 * Get.width
+        // Feedback Height ~ 0.65 * Get.height
+        final feedbackCenter =
+            details.offset + Offset(Get.width * 0.9 / 2, Get.height * 0.65 / 2);
+
+        final distance = (feedbackCenter - screenCenter).distance;
+
+        // Threshold
+        if (distance > 100) {
           controller.cycleMemoryCard();
         }
       },
@@ -182,10 +203,11 @@ class _MemoryVaultViewState extends State<MemoryVaultView> {
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Container(
                     color: Colors.grey[100],
-                    child: MagicImage(
+                    child: Image.asset(
                       item.imagePath,
                       fit: BoxFit.cover,
                       width: double.infinity,
+                      cacheWidth: 600, // Optimize memory usage
                     ),
                   ),
                 ),

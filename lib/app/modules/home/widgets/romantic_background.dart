@@ -26,8 +26,8 @@ class _RomanticBackgroundState extends State<RomanticBackground>
       ), // Long duration for continuous drift
     )..repeat();
 
-    // Initialize particles
-    for (int i = 0; i < 30; i++) {
+    // Initialize particles (Reduced count for performance)
+    for (int i = 0; i < 10; i++) {
       _particles.add(_generateParticle());
     }
   }
@@ -36,11 +36,11 @@ class _RomanticBackgroundState extends State<RomanticBackground>
     return Particle(
       x: _random.nextDouble(),
       y: _random.nextDouble(),
-      size: _random.nextDouble() * 20 + 10,
-      opacity: _random.nextDouble() * 0.5 + 0.1,
-      speed: _random.nextDouble() * 0.05 + 0.02,
+      size: _random.nextDouble() * 15 + 5, // Smaller range
+      opacity: _random.nextDouble() * 0.4 + 0.1,
+      speed: _random.nextDouble() * 0.03 + 0.01, // Slower
       type: _random.nextBool() ? ParticleType.heart : ParticleType.flower,
-      color: Colors.pinkAccent.withValues(alpha: 0.5), // Base color
+      color: Colors.pinkAccent.withValues(alpha: 0.5),
     );
   }
 
@@ -54,29 +54,28 @@ class _RomanticBackgroundState extends State<RomanticBackground>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Romantic Gradient Background
+        // Romantic Gradient Background (Static Container)
         Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFF4A0020), // Deep Burgundy/Pink
-                Color(0xFF2E003E), // Deep Purple
-                Color(0xFF1A0024), // Dark Violet
-              ],
+              colors: [Color(0xFF4A0020), Color(0xFF2E003E), Color(0xFF1A0024)],
             ),
           ),
         ),
         // Animated Particles
-        AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) {
-            return CustomPaint(
-              painter: ParticlePainter(_particles, _controller.value),
-              size: Size.infinite,
-            );
-          },
+        RepaintBoundary(
+          // distinct layer
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              return CustomPaint(
+                painter: ParticlePainter(_particles, _controller.value),
+                size: Size.infinite,
+              );
+            },
+          ),
         ),
         // Content overlay
         widget.child,
@@ -118,7 +117,7 @@ class ParticlePainter extends CustomPainter {
     final paint = Paint()..style = PaintingStyle.fill;
 
     for (var particle in particles) {
-      // Movement logic: particles drift up and slightly side-to-side
+      // Movement logic
       double dy = (particle.y - particle.speed * 0.1) % 1.0;
       if (dy < 0) dy += 1.0;
       particle.y = dy;
@@ -127,55 +126,14 @@ class ParticlePainter extends CustomPainter {
           particle.x + sin(animationValue * 2 * pi + particle.y * 10) * 0.001;
       particle.x = dx;
 
-      // Draw particle
+      // Draw particle as simple Circle for performance optimization
+      // (User requested aggressive reduction)
       paint.color = particle.color.withValues(alpha: particle.opacity);
-
       final offset = Offset(particle.x * size.width, particle.y * size.height);
 
-      if (particle.type == ParticleType.heart) {
-        _drawHeart(canvas, offset, particle.size, paint);
-      } else {
-        _drawFlower(canvas, offset, particle.size, paint);
-      }
+      // Draw simple circle instead of complex path
+      canvas.drawCircle(offset, particle.size / 2, paint);
     }
-  }
-
-  void _drawHeart(Canvas canvas, Offset center, double width, Paint paint) {
-    // Simple heart shape path
-    Path path = Path();
-    path.moveTo(center.dx, center.dy + width / 4);
-    path.cubicTo(
-      center.dx - width / 2,
-      center.dy - width / 2,
-      center.dx - width,
-      center.dy + width / 3,
-      center.dx,
-      center.dy + width,
-    );
-    path.cubicTo(
-      center.dx + width,
-      center.dy + width / 3,
-      center.dx + width / 2,
-      center.dy - width / 2,
-      center.dx,
-      center.dy + width / 4,
-    );
-    canvas.drawPath(path, paint);
-  }
-
-  void _drawFlower(Canvas canvas, Offset center, double size, Paint paint) {
-    // Simple flower shape (circle with petals)
-    // Draw 5 petals
-    double petalSize = size / 2.5;
-    for (int i = 0; i < 5; i++) {
-      double angle = (i * 2 * pi) / 5;
-      double px = center.dx + cos(angle) * (size / 3);
-      double py = center.dy + sin(angle) * (size / 3);
-      canvas.drawCircle(Offset(px, py), petalSize, paint);
-    }
-    // Center
-    paint.color = Colors.yellow.withValues(alpha: 0.8);
-    canvas.drawCircle(center, size / 4, paint);
   }
 
   @override
