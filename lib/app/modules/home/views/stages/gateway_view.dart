@@ -43,32 +43,42 @@ class GatewayView extends GetView<HomeController> {
                     ),
 
                     // Filled Heart (Clipped by progress)
-                    Obx(() {
-                      final progress = controller.unlockProgress.value;
-                      // Pulse effect that gets faster as progress increases
-                      final pulseSpeed = 1000 - (progress * 800).toInt();
+                    // Filled Heart (Clipped by progress)
+                    SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Obx(() {
+                          final progress = controller.unlockProgress.value;
+                          // Pulse effect that gets faster as progress increases
+                          final pulseSpeed = 1000 - (progress * 800).toInt();
 
-                      return ClipRect(
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              heightFactor: progress,
-                              child: const Icon(
-                                Icons.favorite,
-                                color: Colors.pinkAccent,
-                                size: 150,
-                              ),
-                            ),
-                          )
-                          .animate(target: progress > 0 ? 1 : 0)
-                          .scale(
-                            begin: const Offset(1.0, 1.0),
-                            end: const Offset(1.1, 1.1),
-                            duration: Duration(
-                              milliseconds: pulseSpeed < 100 ? 100 : pulseSpeed,
-                            ),
-                            curve: Curves.easeInOut,
-                          );
-                    }),
+                          return ClipRect(
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  heightFactor: progress,
+                                  child: const Icon(
+                                    Icons.favorite,
+                                    color: Colors.pinkAccent,
+                                    size: 150,
+                                  ),
+                                ),
+                              )
+                              .animate(target: progress > 0 ? 1 : 0)
+                              .scale(
+                                begin: const Offset(1.0, 1.0),
+                                end: const Offset(1.1, 1.1),
+                                duration: Duration(
+                                  milliseconds: pulseSpeed < 100
+                                      ? 100
+                                      : pulseSpeed,
+                                ),
+                                curve: Curves.easeInOut,
+                              );
+                        }),
+                      ),
+                    ),
 
                     // Particles/Sparkles on top if almost done?
                     // Keeping it simple for now as requested: "filling heart"

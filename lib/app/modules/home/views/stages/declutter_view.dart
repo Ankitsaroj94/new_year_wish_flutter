@@ -108,25 +108,37 @@ class DeclutterView extends GetView<HomeController> {
 
   Widget _buildCard(String text, {bool isDragging = false}) {
     Color cardColor;
+    String emoji;
+
     switch (text) {
       case 'Work':
-        cardColor = const Color(0xFFFFCC80); // Softer Orange
+        cardColor = const Color(
+          0xFFFF80AB,
+        ).withValues(alpha: 0.9); // Pink Accent
+        emoji = "💼";
         break;
       case 'Stress':
-        cardColor = const Color(0xFFFFF59D); // Softer Yellow
+        cardColor = const Color(0xFFF48FB1).withValues(alpha: 0.9); // Pink 200
+        emoji = "😫";
         break;
       case 'Bad Days':
-        cardColor = const Color(0xFFEF9A9A); // Softer Red
+        cardColor = const Color(
+          0xFFCE93D8,
+        ).withValues(alpha: 0.9); // Purple 200 (Pinkish)
+        emoji = "🌧️";
         break;
       case 'Distance':
-        cardColor = const Color(0xFF90CAF9); // Softer Blue
+        cardColor = const Color(
+          0xFFFFAB91,
+        ).withValues(alpha: 0.9); // Deep Orange 200 (Salmon Pink)
+        emoji = "📍";
         break;
       default:
-        cardColor = Colors.white;
+        cardColor = Colors.pink.withValues(alpha: 0.9);
+        emoji = "✨";
     }
 
     // Random slight rotation for "messy" natural look
-    // We can use the string length to generate a pseudo-random angle so it's consistent for the same card
     final double angle = (text.length % 5 - 2) * 0.05;
 
     return Transform.rotate(
@@ -134,42 +146,74 @@ class DeclutterView extends GetView<HomeController> {
       child: Material(
         color: Colors.transparent,
         child: Container(
-          width: Get.width * 0.85, // Much larger width
-          height: 400,
+          width: Get.width * 0.85,
+          height: 420,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: cardColor,
             borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-              bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(60), // Folded/Organic corner effect
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(40),
+              bottomLeft: Radius.circular(25),
+              bottomRight: Radius.circular(80), // Large organic curve
             ),
             boxShadow: [
               if (!isDragging)
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.3),
-                  blurRadius: 15,
-                  offset: const Offset(5, 10),
+                  color: Colors.black.withValues(alpha: 0.2),
+                  blurRadius: 20,
+                  offset: const Offset(8, 15),
+                  spreadRadius: 2,
                 ),
             ],
+            // Adding a subtle paper texture effect via gradient overlay
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.white.withValues(alpha: 0.4),
+                Colors.transparent,
+                Colors.black.withValues(alpha: 0.05),
+              ],
+            ),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(emoji, style: const TextStyle(fontSize: 80))
+                  .animate(onPlay: (c) => c.repeat(reverse: true))
+                  .scale(
+                    begin: const Offset(1, 1),
+                    end: const Offset(1.1, 1.1),
+                    duration: const Duration(seconds: 2),
+                    curve: Curves.easeInOut,
+                  ),
+              const SizedBox(height: 30),
               Text(
                 text,
                 style: GoogleFonts.permanentMarker(
-                  // Handwriting style
-                  fontSize: 40,
+                  fontSize: 42,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: Colors.brown[800], // Softer than pure black
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
+              Container(
+                width: 60,
+                height: 3,
+                decoration: BoxDecoration(
+                  color: Colors.brown[300],
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 30),
               Text(
                 "Tap to discard",
-                style: GoogleFonts.caveat(fontSize: 24, color: Colors.black54),
+                style: GoogleFonts.caveat(
+                  fontSize: 26,
+                  color: Colors.brown[600],
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ],
           ),

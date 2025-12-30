@@ -68,6 +68,12 @@ class HomeController extends GetxController {
   // --- Stage 3: Memory Vault ---
   final RxList<MemoryItem> memoryItems = <MemoryItem>[].obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    _loadMemories();
+  }
+
   void _loadMemories() {
     // Cycling 9 images to make 15 cards
     final images = [
