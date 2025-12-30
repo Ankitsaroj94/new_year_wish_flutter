@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../widgets/romantic_background.dart';
@@ -125,8 +126,8 @@ class _Reveal2026ViewState extends State<Reveal2026View>
 
   Widget _buildBack() {
     return Container(
-      width: 320,
-      height: 500,
+      width: Get.width - 200,
+      height: Get.height - 200,
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.9),
         borderRadius: BorderRadius.circular(16),
@@ -143,13 +144,15 @@ class _Reveal2026ViewState extends State<Reveal2026View>
           child: AnimatedTextKit(
             animatedTexts: [
               TypewriterAnimatedText(
-                "My Dearest,\n\n"
-                "As we step into 2026, I want to thank you for every moment we've shared. "
-                "You are my rock, my joy, and my greatest adventure.\n\n"
-                "I promise to love you more with each passing day, to stand by you, and to fill our year with endless smiles.\n\n"
-                "Here's to us, and to a year as beautiful as you are.\n\n"
-                "With all my love,\nMe",
-                speed: const Duration(milliseconds: 50),
+                "My Dearest Love 💖,\n\n"
+                "Six years. 💑 We've spent six incredible years walking this path together. 👣 "
+                "We have fought, we have struggled, and we have faced storms that would have broken others. ⛈️ "
+                "But through it all, we are still here—hand in hand, stronger than ever. 💪❤️\n\n"
+                "You are the quiet peace in my chaos 🕊️ and the brightest light in my darkest days. ✨ "
+                "I promise to cherish you in the quiet moments and the grand adventures 🌍, to listen, to understand, and to love you more fiercely with every sunrise. 🌅\n\n"
+                "Here's to the years behind us, and to the endless years still to come. 🥂✨\n\n"
+                "Forever Yours, 💍\nMe",
+                speed: const Duration(milliseconds: 30),
               ),
             ],
             displayFullTextOnTap: true,

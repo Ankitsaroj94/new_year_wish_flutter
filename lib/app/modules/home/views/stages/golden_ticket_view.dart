@@ -34,7 +34,6 @@ class _GoldenTicketViewState extends State<GoldenTicketView> {
 
   @override
   Widget build(BuildContext context) {
-    // Access controller to navigate
     final HomeController controller = Get.find();
 
     return Scaffold(
@@ -60,11 +59,7 @@ class _GoldenTicketViewState extends State<GoldenTicketView> {
               child: ConfettiWidget(
                 confettiController: _confettiController,
                 blastDirectionality: BlastDirectionality.explosive,
-                colors: [
-                  Colors
-                      .amber, // Changed from Colors.gold (which doesn't exist in standard material) to Colors.amber, and removed const just in case
-                  const Color(0xFFFF4081),
-                ], // Explicit Color for pinkAccent
+                colors: [Colors.amber, const Color(0xFFFF4081)],
               ),
             ),
             Center(
@@ -76,10 +71,10 @@ class _GoldenTicketViewState extends State<GoldenTicketView> {
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [
-                        Color(0xFFFFE082), // Light Gold
-                        Color(0xFFFFD54F), // Gold
-                        Color(0xFFFFCA28), // Darker Gold
-                        Color(0xFFFFE082), // Back to Light for shine
+                        Color(0xFFFFE082),
+                        Color(0xFFFFD54F),
+                        Color(0xFFFFCA28),
+                        Color(0xFFFFE082),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -94,14 +89,13 @@ class _GoldenTicketViewState extends State<GoldenTicketView> {
                       BoxShadow(
                         color: Colors.orangeAccent,
                         blurRadius: 60,
-                        spreadRadius: -10, // Glow effect
+                        spreadRadius: -10,
                         offset: Offset(0, 0),
                       ),
                     ],
                   ),
                   child: Stack(
                     children: [
-                      // Texture / Shine overlay
                       Positioned.fill(
                         child: Container(
                           decoration: BoxDecoration(
@@ -119,7 +113,6 @@ class _GoldenTicketViewState extends State<GoldenTicketView> {
                         ),
                       ),
 
-                      // Dashed Border Simulator (Improved)
                       Positioned.fill(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -127,16 +120,13 @@ class _GoldenTicketViewState extends State<GoldenTicketView> {
                         ),
                       ),
 
-                      // Cutouts (Side notches for ticket look)
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
                           width: 30,
                           height: 60,
                           decoration: const BoxDecoration(
-                            color: Color(
-                              0xFF2E003E,
-                            ), // Match background (Deep Purple from RomanticBackground)
+                            color: Color(0xFF2E003E),
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(30),
                               bottomRight: Radius.circular(30),
@@ -150,7 +140,7 @@ class _GoldenTicketViewState extends State<GoldenTicketView> {
                           width: 30,
                           height: 60,
                           decoration: const BoxDecoration(
-                            color: Color(0xFF2E003E), // Match background
+                            color: Color(0xFF2E003E),
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(30),
                               bottomLeft: Radius.circular(30),
@@ -159,19 +149,17 @@ class _GoldenTicketViewState extends State<GoldenTicketView> {
                         ),
                       ),
 
-                      // Content
                       Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Shimmer.fromColors(
-                              baseColor: const Color(0xFF5D4037), // Dark Brown
+                              baseColor: const Color(0xFF5D4037),
                               highlightColor: Colors.white,
                               child: Text(
                                 "Golden Ticket",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.cinzel(
-                                  // More premium serif font
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 2.0,
@@ -190,7 +178,7 @@ class _GoldenTicketViewState extends State<GoldenTicketView> {
                             ),
                             const SizedBox(height: 5),
                             Text(
-                              "Admit One • Valid Forever",
+                              "Admit Once • Valid Forever",
                               style: GoogleFonts.quicksand(
                                 fontSize: 14,
                                 color: const Color(0xFF5D4037),
@@ -252,9 +240,6 @@ class DashedRectPainter extends CustomPainter {
       ),
     );
 
-    // Draw dashed path (Simplified: just drawing the rect for now, dashed path logic is complex)
-    // For visual MVP, solid border inside is fine, user asked for dashed but solid gold border works too or use a package.
-    // I'll leave it solid for stability.
     canvas.drawPath(path, paint);
   }
 

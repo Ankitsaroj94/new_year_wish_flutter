@@ -166,16 +166,7 @@ class DeclutterView extends GetView<HomeController> {
                   spreadRadius: 2,
                 ),
             ],
-            // Adding a subtle paper texture effect via gradient overlay
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.white.withValues(alpha: 0.4),
-                Colors.transparent,
-                Colors.black.withValues(alpha: 0.05),
-              ],
-            ),
+            // gradient removed to allow color to render
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
