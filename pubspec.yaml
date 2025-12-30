@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  magic_extensions: ^0.0.12
+  magic_image: ^1.0.1
 
 dev_dependencies:
   flutter_test:
