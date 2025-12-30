@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  get: ^4.7.3
   magic_extensions: ^0.0.12
   magic_image: ^1.0.1
 
